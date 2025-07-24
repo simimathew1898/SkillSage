@@ -1,0 +1,8 @@
+requests
+beautifulsoup4
+pandas
+spacy
+pdfplumber
+streamlit
+sqlalchemy
+psycopg2-binary
