@@ -59,6 +59,7 @@ SkillSage/
 | Day | Milestone |
 |-----|-----------|
 | Day 1 | Project setup, folder structure, initial architecture |
+| Day 2 | Pulled real job data from RemoteOK API and saved to CSV |
 
 
 ---
