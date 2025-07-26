@@ -60,7 +60,7 @@ SkillSage/
 |-----|-----------|
 | Day 1 | Project setup, folder structure, initial architecture |
 | Day 2 | Pulled real job data from RemoteOK API and saved to CSV |
-
+| Day 3 | Cleaned HTML from job descriptions and extracted raw skill-like phrases using spaCy |
 
 ---
 
