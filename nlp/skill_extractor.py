@@ -1,32 +1,47 @@
-# D:\SkillSage\ingestion\skill_extractor.py
-
-import pandas as pd
 import spacy
+from spacy.matcher import PhraseMatcher
+import pandas as pd
 import os
 
-# Load spaCy model
+# Load English NLP model
 nlp = spacy.load("en_core_web_sm")
 
-# Load the cleaned job descriptions
-input_path = os.path.join("ingestion", "jobs_cleaned.csv")
-df = pd.read_csv(input_path)
+# Load job descriptions
+df = pd.read_csv("ingestion/jobs_remoteok.csv")
 
-# Function to extract noun chunks from description
-def extract_skills(text):
-    if pd.isnull(text):
-        return []
-    doc = nlp(text)
-    # Only keep chunks that are 1-4 words and don’t start with stopwords
-    skills = [chunk.text.strip().lower()
-              for chunk in doc.noun_chunks
-              if 1 <= len(chunk.text.split()) <= 4 and not chunk.root.is_stop]
-    return list(set(skills))  # remove duplicates
+# Load and clean skills list
+skills_path = "nlp/skills_master_list.txt"
+with open(skills_path, "r") as f:
+    skills_list = [line.strip().lower() for line in f if line.strip()]
 
-# Apply the skill extraction
-df["extracted_skills"] = df["description"].apply(extract_skills)
+# Remove ambiguous/unreliable single-word skills
+filtered_skills = [skill for skill in skills_list if len(skill) > 2 or ' ' in skill]
 
-# Save output
-output_path = os.path.join("nlp", "jobs_skills_raw.csv")
-df.to_csv(output_path, index=False)
+# Initialize matcher with lowercase attribute
+matcher = PhraseMatcher(nlp.vocab, attr="LOWER")
+patterns = [nlp.make_doc(skill) for skill in filtered_skills]
+matcher.add("SKILLS", patterns)
 
-print(f"Skill-like phrases extracted and saved to {output_path}")
+# Dictionary to count skill occurrences
+skill_counts = {}
+
+# Iterate through job descriptions
+for index, row in df.iterrows():
+    description = str(row.get("description", "")).lower()
+    doc = nlp(description)
+    matches = matcher(doc)
+    found_skills = set([doc[start:end].text.lower() for _, start, end in matches])
+    
+    for skill in found_skills:
+        skill_counts[skill] = skill_counts.get(skill, 0) + 1
+
+# Create a dataframe of top skills
+skills_df = pd.DataFrame(skill_counts.items(), columns=["skill", "count"])
+skills_df = skills_df.sort_values(by="count", ascending=False)
+
+# Save to CSV
+output_path = "nlp/skills_ranked.csv"
+os.makedirs(os.path.dirname(output_path), exist_ok=True)
+skills_df.to_csv(output_path, index=False)
+
+print(f"Skill extraction complete. Top {len(skills_df)} skills saved to {output_path}")

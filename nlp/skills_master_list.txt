@@ -1,0 +1,104 @@
+airflow
+amazon web services
+ansible
+apache spark
+api development
+aws
+azure
+bash
+bigquery
+bitbucket
+c#
+c++
+ci/cd
+classification
+cloudformation
+clustering
+dash
+data analysis
+data cleaning
+data modeling
+data pipeline
+data warehousing
+data wrangling
+databricks
+dbt
+deep learning
+django
+docker
+dynamodb
+elt
+etl
+excel
+fastapi
+flask
+flink
+gcp
+git
+github
+gitlab
+go
+google cloud
+hadoop
+hive
+huggingface
+java
+javascript
+jenkins
+kafka
+keras
+kubernetes
+langchain
+linux
+llm
+looker
+machine learning
+matplotlib
+microsoft azure
+mongodb
+mysql
+natural language processing
+ner
+next.js
+nlp
+node.js
+nosql
+numpy
+openai
+oracle
+pandas
+plotly
+postgresql
+power bi
+presto
+pyspark
+pytest
+python
+pytorch
+react
+redis
+redshift
+regression
+rest api
+ruby
+scala
+scikit-learn
+seaborn
+sentiment analysis
+shell scripting
+snowflake
+sql
+sql server
+statistics
+streamlit
+superset
+tableau
+tensorflow
+terraform
+text classification
+time series
+topic modeling
+transformers
+typescript
+unit testing
+unittest
