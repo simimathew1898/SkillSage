@@ -56,12 +56,13 @@ SkillSage/
 
 ## Build Timeline
 
-| Day | Milestone |
+| Day   | Milestone |
 |-----|-----------|
 | Day 1 | Project setup, folder structure, initial architecture |
 | Day 2 | Pulled real job data from RemoteOK API and saved to CSV |
 | Day 3 | Cleaned HTML from job descriptions and extracted raw skill-like phrases using spaCy |
 | Day 4 | Improved skill extraction logic, curated a clean master skill list, and generated semantic embeddings using transformers for future job-skill matching |
+| Day 5 | Pulled top 20 most in-demand skills from extracted data and visualized them using seaborn |
 ---
 
 ## Author
