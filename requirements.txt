@@ -6,3 +6,4 @@ pdfplumber
 streamlit
 sqlalchemy
 psycopg2-binary
+seaborn

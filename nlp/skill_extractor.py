@@ -40,7 +40,7 @@ skills_df = pd.DataFrame(skill_counts.items(), columns=["skill", "count"])
 skills_df = skills_df.sort_values(by="count", ascending=False)
 
 # Save to CSV
-output_path = "nlp/skills_ranked.csv"
+output_path = "data/processed/skills_ranked.csv"
 os.makedirs(os.path.dirname(output_path), exist_ok=True)
 skills_df.to_csv(output_path, index=False)
 

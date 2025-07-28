@@ -1,0 +1,64 @@
+skill,count
+python,17
+aws,17
+react,15
+ci/cd,11
+typescript,11
+javascript,10
+docker,9
+github,9
+kubernetes,7
+linux,7
+sql,7
+machine learning,7
+gcp,6
+redis,5
+ruby,5
+c++,4
+git,4
+terraform,4
+excel,4
+java,3
+llm,3
+mysql,3
+postgresql,3
+gitlab,3
+kafka,2
+data modeling,2
+statistics,2
+google cloud,2
+bash,2
+power bi,2
+looker,2
+dynamodb,2
+unit testing,2
+etl,1
+api development,1
+classification,1
+rest api,1
+sql server,1
+tableau,1
+data pipeline,1
+redshift,1
+ansible,1
+django,1
+cloudformation,1
+next.js,1
+clustering,1
+azure,1
+shell scripting,1
+nosql,1
+node.js,1
+data warehousing,1
+airflow,1
+flink,1
+dbt,1
+regression,1
+pandas,1
+numpy,1
+data analysis,1
+matplotlib,1
+jenkins,1
+fastapi,1
+pytorch,1
+transformers,1
