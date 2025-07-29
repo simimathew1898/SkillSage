@@ -63,6 +63,7 @@ SkillSage/
 | Day 3 | Cleaned HTML from job descriptions and extracted raw skill-like phrases using spaCy |
 | Day 4 | Improved skill extraction logic, curated a clean master skill list, and generated semantic embeddings using transformers for future job-skill matching |
 | Day 5 | Pulled top 20 most in-demand skills from extracted data and visualized them using seaborn |
+| Day 6 | Built interactive Streamlit dashboard to explore trending job skills      |
 ---
 
 ## Author
