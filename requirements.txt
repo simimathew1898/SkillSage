@@ -6,4 +6,7 @@ pdfplumber
 streamlit
 sqlalchemy
 psycopg2-binary
+streamlit
 seaborn
+matplotlib
+
