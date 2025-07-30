@@ -64,6 +64,7 @@ SkillSage/
 | Day 4 | Improved skill extraction logic, curated a clean master skill list, and generated semantic embeddings using transformers for future job-skill matching |
 | Day 5 | Pulled top 20 most in-demand skills from extracted data and visualized them using seaborn |
 | Day 6 | Built interactive Streamlit dashboard to explore trending job skills      |
+|Day 7	| Enhanced dashboard: filters, layout, metrics, and top companies  |
 ---
 
 ## Author
