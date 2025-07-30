@@ -1,64 +1,75 @@
+# dashboard/app.py
+
 import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
-import os
 
-# -------------------------------
-# Page Configuration
-# -------------------------------
-st.set_page_config(
-    page_title="SkillSage Analytics",
-    layout="wide"
-)
+# ---------- PAGE CONFIG ----------
+st.set_page_config(page_title="SkillSage Insights", layout="wide")
 
-# -------------------------------
-# Load Data with Caching
-# -------------------------------
-@st.cache_data
-def load_data():
-    file_path = "data/processed/skills_ranked.csv"
-    if os.path.exists(file_path):
-        df = pd.read_csv(file_path)
-        return df.sort_values(by="count", ascending=False).reset_index(drop=True)
-    else:
-        return pd.DataFrame()
+# ---------- LOAD DATA ----------
+skills_df = pd.read_csv("data/processed/skills_ranked.csv")
+jobs_df = pd.read_csv("data/processed/job_listings.csv")
 
-df = load_data()
+# ---------- SIDEBAR CONTROLS ----------
+st.sidebar.title("Filters")
 
-# -------------------------------
-# Title & Description
-# -------------------------------
-st.title("SkillSage – In-Demand Skills Dashboard")
-st.markdown("""
-SkillSage dashboard!  
-""")
+# Job title filter
+job_titles = sorted(jobs_df["title"].dropna().unique())
+selected_title = st.sidebar.selectbox("Filter by Job Title", options=["All"] + job_titles)
 
-# -------------------------------
-# UI Controls
-# -------------------------------
-with st.sidebar:
-    st.header("Customize View")
-    show_data = st.checkbox("Show Raw Data", value=False)
-    top_n = st.slider("Top N Skills to Display", min_value=5, max_value=50, value=20)
-    color_palette = st.selectbox("Color Palette", options=["viridis", "Blues", "magma", "rocket"])
+# Top N filter
+top_n = st.sidebar.slider("Top N to display", 5, 30, 15)
 
-# -------------------------------
-# Show Raw Data (Optional)
-# -------------------------------
-if show_data:
-    st.subheader("Raw Skill Frequency Data")
-    st.dataframe(df)
+# Color palette
+palette = st.sidebar.selectbox("Color Palette", options=["viridis", "magma", "plasma", "crest"])
 
-# -------------------------------
-# Plot Section
-# -------------------------------
-if not df.empty:
-    st.subheader(f"Top {top_n} In-Demand Skills")
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.barplot(data=df.head(top_n), x="count", y="skill", palette=color_palette, ax=ax)
-    ax.set_xlabel("Frequency")
-    ax.set_ylabel("Skill")
-    st.pyplot(fig)
+# ---------- APPLY FILTER ----------
+if selected_title != "All":
+    jobs_filtered = jobs_df[jobs_df["title"] == selected_title]
 else:
-    st.warning("Skill data not found. Please make sure the file exists at 'data/processed/skills_ranked.csv'.")
+    jobs_filtered = jobs_df
+
+# ---------- HEADER ----------
+st.title("SkillSage: Job Market Skill Trends")
+
+# Summary
+st.markdown(f"**{len(jobs_filtered)}** jobs matched for **'{selected_title}'**")
+st.markdown(f"Extracted **{len(skills_df)}** unique skill mentions from descriptions.")
+
+# ---------- METRICS ----------
+col1, col2, col3 = st.columns(3)
+col1.metric("Total Jobs", len(jobs_df))
+col2.metric("Filtered Jobs", len(jobs_filtered))
+col3.metric("Top Skills Tracked", len(skills_df))
+
+st.markdown("---")
+
+# ---------- LAYOUT ----------
+left_col, right_col = st.columns(2)
+
+# Top Skills Chart
+with left_col:
+    st.subheader(f"Top {top_n} Skills from Listings")
+    fig1, ax1 = plt.subplots()
+    sns.barplot(data=skills_df.head(top_n), x="count", y="skill", palette=palette, ax=ax1)
+    ax1.set_xlabel("Mentions")
+    ax1.set_ylabel("Skill")
+    st.pyplot(fig1)
+
+# Top Companies Chart
+with right_col:
+    st.subheader("Top Hiring Companies")
+    top_companies = jobs_filtered["company"].value_counts().head(top_n)
+    fig2, ax2 = plt.subplots()
+    sns.barplot(x=top_companies.values, y=top_companies.index, palette=palette, ax=ax2)
+    ax2.set_xlabel("Job Listings")
+    ax2.set_ylabel("Company")
+    st.pyplot(fig2)
+
+st.markdown("---")
+
+# ---------- OPTIONAL: Sample Listings ----------
+st.subheader("📝 Sample Job Listings")
+st.dataframe(jobs_filtered[["title", "company", "location"]].head(10), use_container_width=True)
